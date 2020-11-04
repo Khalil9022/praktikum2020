@@ -1,0 +1,55 @@
+---
+title: "Murders"
+author: "Khalil"
+date: "11/4/2020"
+output: pdf_document
+---
+
+## R Markdown
+
+1. ) 
+
+```{r murders}
+  
+  str(murders)
+  
+```
+ dari data yang sudah didapatkan. saya menyimpulkan bahwa penyataan yang paling menggambarkan karakter dari tiap variable dari data frame adalah "C". Data berisi Nama negara bagian, singkatan dari nama negara bagian, wilayah
+negara bagian, dan populasi negara bagian serta jumlah total pembunuhan pada
+tahun 2010.
+  karena data yang ditampilkan di dalam str adalah sebagian kecil dari tiap tiap tabel yang terdapat di dalam data frames tersebut.
+
+2.) Nama - nama tabel pada data frames murders adalah : 
+```{r murders}
+  names(murders)
+```
+
+3.) 
+```{r}
+  a = murders$abb
+  print(a)
+  
+  class(a)
+```
+4.)
+```{r}
+  b= murders[[2]]
+  print(b)
+  
+  c = a == b 
+  print(c)
+```
+  
+  Jadi kesimpulannya, variable A dan B itu adalah sama
+  
+5.)
+```{r}
+  length(levels(murders$region))
+```
+  
+  jadi ada 4 region yang dimilki data frames murders
+  
+6.) 
+```{r}
+  table(matrix(murders$region))
+```
