@@ -1,0 +1,64 @@
+---
+title: "Modul6-Materi : Tidyverse"
+author: "Khalil"
+date: "12/5/2020"
+output: pdf_document
+---
+
+```{r}
+  library(dslabs)
+  library(tidyverse)
+  library(dplyr)
+  data(murders)
+```
+
+Mutate : 
+```{r}
+  murders <- mutate(murders, rate = total/population *100000)
+  print(murders)
+```
+
+Filter :
+```{r}
+  filter(murders, rate<=0.71)
+```
+
+Select : 
+```{r}
+  new_table <- select(murders, state, region, rate)
+```
+
+Operator Pipe (%>%): 
+```{r}
+  murders %>% select(state, region, rate) %>% filter(rate<=0.71)
+```
+
+Summarize : 
+```{r}
+  data("heights")
+  print(heights)
+```
+```{r}
+  s <- heights %>% filter(sex == "Female") %>% summarise(average = mean(height), standard_deviation = sd(height))
+  s
+```
+
+Group : 
+```{r}
+  heights %>% group_by(sex) %>% summarize(average = mean(height), standard_deviation = sd(height))
+```
+
+sorting dataframe : 
+```{r}
+  murders %>%
+arrange(total) %>% head()
+```
+```{r}
+  murders %>% arrange(region, rate) %>% head() 
+```
+
+top_n : 
+```{r}
+ murders %>% top_n(5, rate)
+```
+

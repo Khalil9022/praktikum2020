@@ -2,15 +2,18 @@
 title: "Murders"
 author: "Khalil"
 date: "11/4/2020"
-output: pdf_document
+output:
+  word_document: default
+  pdf_document: default
 ---
 
 ## R Markdown
 
 1. ) 
 
-```{r murders}
-  
+```{r}
+  library(dslabs)
+  data(murders)
   str(murders)
   
 ```
@@ -21,11 +24,14 @@ tahun 2010.
 
 2.) Nama - nama tabel pada data frames murders adalah : 
 ```{r murders}
+
   names(murders)
 ```
 
 3.) 
 ```{r}
+
+  
   a = murders$abb
   print(a)
   
@@ -33,6 +39,8 @@ tahun 2010.
 ```
 4.)
 ```{r}
+
+  
   b= murders[[2]]
   print(b)
   
@@ -44,6 +52,8 @@ tahun 2010.
   
 5.)
 ```{r}
+
+  
   length(levels(murders$region))
 ```
   
@@ -51,5 +61,6 @@ tahun 2010.
   
 6.) 
 ```{r}
+  
   table(matrix(murders$region))
 ```
