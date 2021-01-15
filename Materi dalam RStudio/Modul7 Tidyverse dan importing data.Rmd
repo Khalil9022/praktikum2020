@@ -1,0 +1,124 @@
+---
+title: "Modul7 Tidyverse & import data"
+author: "Khalil"
+date: "1/15/2021"
+output: pdf_document
+---
+
+```{r}
+  library(dslabs)
+  library(tidyverse)
+  data(murders)
+```
+
+```{r}
+  head(murders)
+  str(murders)
+```
+
+Tibble
+```{r}
+  tabel_tibble <- as_tibble(murders)
+  tabel_tibble
+```
+  jika kita ingin memanggil sebuah kolom pada yang sudah berbentuk tibble, dan data nya itu tidak ada, maka akan muncul error yang mengatakan bahwa kolom yang dicari tidak ada... berbeda dengan pencarian kolom yang biasanya, outputnya hanyalah NULL tanpa memberitahu error dibagian mana.
+  
+Dot Operator  
+```{r}
+  murders %>% filter(region == "Northeast") %>% .$total
+```
+
+purrr package
+```{r}
+  faktorial = function(n) {
+    if (n == 0 || n == 1) {
+      result = 1 
+    }
+    else {
+      deret = 1:n 
+      result = 1 
+      for (bilangan in deret){
+        result = result * bilangan
+      }
+    }
+    result
+  }
+
+ 
+```
+
+```{r}
+  #contoh menggunakan Sapply
+  x = 1 : 6 
+  hasil = sapply(x,faktorial)
+  hasil
+  class(hasil)
+  
+```
+
+```{r}
+  #contoh menggunakan map
+  x = 1 : 6 
+  hasil = map(x,faktorial)
+  hasil
+  class(hasil)
+  
+```
+
+```{r}
+  #merubah datanya kedalam bentuk numeric dalam fungsi map
+  hasil = map_dbl(x,faktorial)
+  hasil
+  class(hasil)
+```
+
+Mengubahnya menjadi data frame dapat dilakukan dengan : 
+```{r}
+    faktorial = function(n) {
+    if (n == 0 || n == 1) {
+      result = 1 
+    }
+    else {
+      deret = 1:n 
+      result = 1 
+      for (bilangan in deret){
+        result = result * bilangan
+      }
+    }
+    tibble(
+      bilangan = n,
+      hasil = result
+    )
+  }
+  
+  x = 1 : 6 
+  hasil = map_df(x,faktorial)
+  hasil 
+```
+
+Tidyverse Conditional (Case When)
+```{r}
+  x = -2 : 2
+  case_when(
+    x < 0 ~ "Negatif", 
+    x > 0 ~ "Positif", 
+    TRUE ~ "Nol"
+    )
+```
+
+Beetween
+```{r}
+  #misal x = 5
+  x = 5 
+  
+  if (between(x,0,9)) {
+    print("Satuan")
+  }
+  if (between(x,10,99)) {
+    print("puluhan")
+  }
+```
+
+```{r}
+```
+
