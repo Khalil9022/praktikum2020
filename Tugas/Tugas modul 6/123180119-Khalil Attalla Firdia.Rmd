@@ -2,7 +2,9 @@
 title: "Modul6-Tugas"
 author: "Khalil"
 date: "12/5/2020"
-output: pdf_document
+output:
+  word_document: default
+  pdf_document: default
 ---
 1.) 
 ```{r}
@@ -10,12 +12,13 @@ output: pdf_document
   library(dplyr)
   data("murders")
   murders <- mutate(murders, rate = total/population * 10^5 )
+  murders
 ```
 
 2.) 
 ```{r}
-  x <- murders$rate
-  murders <- mutate(murders, ranking = rank(x) )
+  murders <- mutate(murders, ranking = rank(murders$rate) )
+  murders
 ```
 
 3.) 
@@ -25,18 +28,21 @@ output: pdf_document
 
 4.) 
 ```{r}
-  murders %>% filter( ranking > 46) %>% select(state,rate,ranking)
+  murders %>% filter( ranking > 46 & ranking <=51) %>% select(state)
 ```
 
 5.) 
 ```{r}
-  murders %>% filter(region == "Northeast" | region == "West",rate < 1) %>% select(state,rate,ranking)
+  pencarian = filter(murders,region == "Northeast" | region == "West",rate < 1)
+  pencarian = select(murders,state,rate,ranking)
+  pencarian 
 ```
-
+OPERATOR PIPE
 1.) 
 ```{r}
+  data("murders")
   my_state <- murders %>%
-  mutate(rate = total/population * 10^5) %>%
+  mutate(rate = total/population * 10^5, ranking = rank(rate)) %>%
   filter(region == "Northeast" | region == "West", rate < 1) %>%
   select(state,rate,ranking)
 
