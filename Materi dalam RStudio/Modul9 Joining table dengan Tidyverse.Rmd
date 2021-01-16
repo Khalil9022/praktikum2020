@@ -1,0 +1,93 @@
+---
+title: "Modul9 Joining table dengan Tidyverse"
+author: "Khalil"
+date: "1/16/2021"
+output: pdf_document
+---
+
+```{r}
+  library(tidyverse)
+  library(dslabs)
+  data(murders)
+  head(murders)
+```
+data dari dataset result us election 2016
+```{r}
+  head(results_us_election_2016) 
+
+```
+
+membandingkan apakah data `State` di murders = results_us_election_2016 dengan cara IDENTICAL
+```{r}
+  identical(results_us_election_2016$state,murders$state)
+```
+
+Menggabungkan data dengan fungsi LEFT JOIN dan anak anaknya
+```{r}
+  tab <- left_join(murders, results_us_election_2016, by = "state") %>%
+select(-others) %>% rename(ev = electoral_votes)
+head(tab)
+```
+
+memvisualisasikan data "TAB" yang sudah dibuat
+```{r}
+ # tab %>% ggplot(aes(population/10^6, ev, label = abb)) + geom_point() + geom_text_repel() + scale_x_continuous("log2")
+  library(ggrepel)
+  tab %>% ggplot(aes(population/10^6, ev, label = abb)) +
+  geom_point() +
+  geom_text_repel() +
+  scale_x_continuous(trans = "log2") +
+  scale_y_continuous(trans = "log2") + 
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+```{r}
+  tab_1 = slice(murders, 1:6) %>% select(state, population)
+  tab_1
+```
+```{r}
+  tab_2 = results_us_election_2016 %>%
+  filter(state %in% c("Alabama" , "Alaska" , "Arizona", "California", "Connecticut", "Delaware")) %>% 
+  select(state,electoral_votes) %>%
+  rename(ev = electoral_votes)
+  
+ # Atau menggunakan fungsi : 
+ # tab_2 = results_us_election_2016 %>%
+ # filter(state == "Alabama" | state == "Alaska" | state == "Arizona" | state ==
+ # "California" | state == "Connecticut" | state == "Delaware") %>% 
+ # select(state,electoral_votes) %>%
+ # rename(ev = electoral_votes)
+ # tab_2
+```
+
+Arkansas dan Colorado bernilai NA karna di tab_2 tidak ada state itu
+```{r}
+  left_join(tab_1,tab_2, by="state")
+```
+
+Connecticut dan Delaware populasi bernilai NA karna di tab 1 tidak ada state itu
+```{r}
+  right_join(tab_1, tab_2, by = "state")
+```
+
+Inner join berguna untuk menggabungkan 2 data frames yang sama sama ada di ke 2 sisi data
+```{r}
+  inner_join(tab_1, tab_2, by = "state")
+```
+
+Menggabungkan keseluruhan data
+```{r}
+  full_join(tab_1,tab_2, by = "state")
+```
+
+Menunjukkan data pada tab_1 apa saja yang juga dimiliki pada tab_2 
+```{r}
+  semi_join(tab_1, tab_2 , by = "state")
+```
+
+Kebalikan dari semi_join
+```{r}
+  anti_join(tab_1, tab_2, by= "state")
+```
+
