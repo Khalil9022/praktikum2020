@@ -206,7 +206,7 @@ Dapatkah Anda membuat visualisasi untuk `sherlock_beta`? Buatlah visualisasi unt
       labs(
         x = "",
         y = expression(beta),
-        title = "Kata kunci pada topik 1 cerita sherlock Holmes"
+        title = "Kata kunci pada topik 2 cerita sherlock Holmes"
       ) +
       theme_light()
 ```
@@ -221,7 +221,7 @@ Dapatkah Anda membuat visualisasi untuk `sherlock_beta`? Buatlah visualisasi unt
       labs(
         x = "",
         y = expression(beta),
-        title = "Kata kunci pada topik 1 cerita sherlock Holmes"
+        title = "Kata kunci pada topik 3 cerita sherlock Holmes"
       ) +
       theme_light()
 ```

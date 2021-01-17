@@ -26,6 +26,7 @@ Filter :
 Select : 
 ```{r}
   new_table <- select(murders, state, region, rate)
+  new_table
 ```
 
 Operator Pipe (%>%): 
@@ -53,8 +54,9 @@ sorting dataframe :
   murders %>%
 arrange(total) %>% head()
 ```
+
 ```{r}
-  murders %>% arrange(region, rate) %>% head() 
+  murders %>% arrange(region, rate) %>% head(6) 
 ```
 
 top_n : 

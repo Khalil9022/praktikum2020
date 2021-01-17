@@ -1,0 +1,61 @@
+---
+title: "Materi10 Shiny bagian2 youtube"
+author: "Khalil"
+date: "1/16/2021"
+output: pdf_document
+---
+Menggunakan Semantic Dashboard : 
+```{r}
+  library(shiny)
+  library(semantic.dashboard)
+  library(DT)
+```
+
+```{r UI}
+  ui = dashboardPage(
+    dashboardHeader(
+      color = "violet" ,title = "My Dashboard" , inverted = TRUE
+    ),
+    dashboardSidebar(
+      size = "thin", color = "violet", inverted = TRUE , 
+      sidebarMenu(
+        menuItem("Iris", tabName = "iris", icon = icon("tree")),
+        menuItem("Cars", tabName = "cars", icon = icon("car"))
+      )
+    ),
+    dashboardBody(
+      tabItems(
+        tabItem("iris",
+            box(plotOutput("correlation_plot"), width = 12),
+            box(
+              selectInput(inputId = "features" , 
+                          label = "Features :" ,
+                          c("Sepal.Width", "Petal.Length",
+                            "Petal.Width")), width = 4)    
+        ),
+        
+        tabItem("cars",
+                fluidPage(
+                  h1("Cars")),
+                  dataTableOutput("carstable")
+        )
+      )
+    )
+  )
+```
+
+```{r Server}
+  server = function(input,output,session){
+    output$correlation_plot = renderPlot(
+      plot(iris$Sepal.Length, iris[[input$features]], xlab = "sepal Length", ylab = "Features")
+    )
+    output$carstable = renderDataTable(mtcars)
+  }
+  
+  
+```
+
+```{r}
+  shinyApp(ui = ui,server = server)
+```
+
