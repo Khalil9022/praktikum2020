@@ -32,87 +32,18 @@ output: pdf_document
   library(vroom)
 
 ```
-
-Scrapping Data
+Pengambilan Data
 ```{r}
-  library(rvest)
-  library(xml2)
-  
-```
-
-```{r}
-  laman_web <- "https://www.tripadvisor.com/Restaurant_Review-g60763-d4737024-Reviews-5_Napkin_Burger_Hell_s_Kitchen-New_York_City_New_York.html" #input alamat link
-  restaurant = read_html(laman_web) #membaca html di R
-```
-
-
-```{r}
-  nickname <- html_nodes(restaurant, ".member_info .info_text") #memasukkan element 
-  nickname_data_lama <- html_text(nickname) #menghilangkan kata <span> dll.
-  nickname_tabel = c(nickname_data_lama) #memasukkan ke array
-  
-  # total_review <- html_nodes(restaurant, ".reviewerBadge") #memasukkan element 
-  # total_review_data_lama <- html_text(total_review) #menghilangkan kata <span> dll.
-  # total_review_tabel = c(total_review_data_lama) #memasukkan ke array
-  
-  visit <- html_nodes(restaurant, ".prw_reviews_stay_date_hsx") #memasukkan element 
-  visit_data_lama <- html_text(visit) #menghilangkan kata <span> dll.
-  visit_data_lama = gsub("Date of visit: ","",visit_data_lama)
-  visit_tabel = c(visit_data_lama) #memasukkan ke array
-  
-  title <- html_nodes(restaurant, ".noQuotes") #memasukkan element 
-  title_data_lama <- html_text(title) #menghilangkan kata <span> dll.
-  title_tabel = c(title_data_lama) #memasukkan ke array
-  
-  review <- html_nodes(restaurant, ".partial_entry") #memasukkan element 
-  review_data_lama <- html_text(review) #menghilangkan kata <span> dll.
-  review_tabel = c(review_data_lama) #memasukkan ke array
-  
-  for(i in seq(10,990,10)){
-    laman_web_baru = paste("https://www.tripadvisor.com/Restaurant_Review-g60763-d4737024-Reviews-or",i,sep = "")
-    laman_web_baru = paste(laman_web_baru, "-5_Napkin_Burger_Hell_s_Kitchen-New_York_City_New_York.html",sep="")
-    restaurant_baru = read_html(laman_web_baru)
-    
-    nickname_baru <- html_nodes(restaurant_baru, ".member_info .info_text") #memasukkan element 
-    nickname_data_baru <- html_text(nickname_baru) #menghilangkan kata <span> dll.
-    nickname_tabel = c(nickname_tabel,nickname_data_baru) #memasukkan ke array
-    
-    # total_review <- html_nodes(restaurant, ".reviewerBadge") #memasukkan element 
-    # total_review_data_lama <- html_text(total_review) #menghilangkan kata <span> dll.
-    # total_review_tabel = c(total_review_data_lama) #memasukkan ke array
-    
-    visit_baru <- html_nodes(restaurant_baru, ".prw_reviews_stay_date_hsx") #memasukkan element 
-    visit_data_baru <- html_text(visit_baru) #menghilangkan kata <span> dll.
-    visit_data_baru = gsub("Date of visit: ","",visit_data_baru)
-    visit_tabel = c(visit_tabel,visit_data_baru) #memasukkan ke array
-    
-    title_baru <- html_nodes(restaurant_baru, ".noQuotes") #memasukkan element 
-    title_data_baru <- html_text(title_baru) #menghilangkan kata <span> dll.
-    title_tabel = c(title_tabel,title_data_baru) #memasukkan ke array
-    
-    review_baru <- html_nodes(restaurant_baru, ".partial_entry") #memasukkan element 
-    review_data_baru <- html_text(review_baru) #menghilangkan kata <span> dll.
-    review_tabel = c(review_tabel,review_data_baru) #memasukkan ke array
-  }
-  
-  restaurant_data = data.frame(nickname = nickname_tabel,Visit = visit_tabel,Title = title_tabel ,Review = review_tabel)
-
+  restaurant_data = vroom(here("Tugas AKhir", "Tugas Akhir Data Science", "dataset", "review.csv"))
+  restaurant_data %>% select(-Families) -> restaurant_data
 
 ```
-
-```{r}
-  write.csv(restaurant_data, file.choose())
-```
-
 
 Word Cloud
 ```{r}
   library(wordcloud)
   library(RColorBrewer)
   library(wordcloud2)
-
-  restaurant_data = vroom(here("Tugas AKhir", "Tugas Akhir Data Science", "dataset", "review2.csv"))
-  restaurant_data %>% select(-Families) -> restaurant_data
 
   text <- restaurant_data$Review
   docs <- Corpus(VectorSource(text))
